@@ -11,3 +11,6 @@
 *.cb
 *.cb2
 .*.lb
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
