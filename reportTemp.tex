@@ -8,6 +8,8 @@
 \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
 \usepackage[english]{babel} % English language/hyphenation
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx} % Images
+\graphicspath{{images/}}
 
 % Custom headers and footers
 \usepackage[automark,headsepline,footsepline]{scrlayer-scrpage}
@@ -57,6 +59,16 @@
 \section{One Explanatory Variable at a Time}
 
 \subsection{} % This will now display as: 1 a)
+% An example of how to include images. Save image to image folder and replace 
+% ImageName with the name of your image
+% \begin{center}
+%     \includegraphics[width=0.7\textwidth]{ImageName.png}
+%     \par\small Caption goes here 
+% \end{center}
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{cow.jpeg}
+    \par\small Mooo
+\end{center}
 Your text for part A goes here.
 
 \subsection{} % This will now display as: 1 b)
