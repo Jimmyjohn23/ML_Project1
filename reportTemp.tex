@@ -1,0 +1,70 @@
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
+\documentclass[paper=letter, fontsize=11pt]{scrartcl} % Standard US Letter paper
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+% Custom headers and footers
+\usepackage[automark,headsepline,footsepline]{scrlayer-scrpage}
+\clearpairofpagestyles
+\pagestyle{scrheadings}
+\ofoot{\pagemark}
+\setlength{\headheight}{13.6pt}
+
+% Margins
+\usepackage[margin=1in]{geometry}
+
+\numberwithin{equation}{section} 
+\numberwithin{figure}{section}   
+\numberwithin{table}{section}    
+
+\setlength\parindent{0pt} 
+\setlength{\parskip}{1em} 
+
+% Change subsection numbering from 1.1 to "1 a)"
+\renewcommand{\thesubsection}{\thesection\ \alph{subsection})}
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} 
+
+\title{ 
+\normalfont \normalsize 
+\textsc{University of North Carolina at Charlotte, Intro to Machine Learning} \\ [25pt] 
+\horrule{0.5pt} \\[0.4cm] 
+\huge Homework 1 \\ 
+\horrule{2pt} \\[0.5cm] 
+}
+
+\author{Jordan Mckoy \and Author Two \and Author Three}
+\date{\normalsize\today} 
+
+\begin{document}
+
+\maketitle 
+
+%----------------------------------------------------------------------------------------
+%   PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{One Explanatory Variable at a Time}
+
+\subsection{} % This will now display as: 1 a)
+Your text for part A goes here.
+
+\subsection{} % This will now display as: 1 b)
+Your text for part B goes here.
+
+\section{Linear Regression Using All Three Explanatory Variables}
+
+\subsection{} % This will now display as: 2 a)
+Your text for the next section's part A goes here.
+
+\end{document}
