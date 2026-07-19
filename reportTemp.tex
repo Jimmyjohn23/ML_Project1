@@ -107,12 +107,35 @@ scaling would have little effect on the outcome.
 \end{center}
 
 \section{Perceptron}
+For the Perceptron model, we tested the penalty, alpha, max iterations, and scaler.
+The penalty parameter controls the type of regularization used by the model. We tested no penalty,
+l1, l2, and elasticnet. The alpha value controls how strongly the regularization is applied.
+The max iterations parameter controls how many times the model is allowed to update its weights
+before stopping. Since Perceptron is a linear model that updates weights based on classification
+mistakes, scaling is important because features with larger numeric ranges can have too much
+influence on the model. The grid search selected elasticnet, an alpha of 0.0001, a max iteration
+value of 1000, and StandardScaler as the best combination. This model had strong malignant recall,
+which means it was good at catching cancer cases. However, its benign recall was lower than some
+of the other models, meaning it had more false positives. In this project, that tradeoff is still
+important to consider because false negatives are more serious, but too many false positives can
+also lead to unnecessary follow-up testing.
 \begin{center}
     \includegraphics[width=0.7\textwidth]{Per.png}
     \par\small Confusion matrix for Perceptron model.
 \end{center}
 
 \section{Support Vector Machine}
+Support Vector Machine (SVM) had multiple parameters to test: kernel, C, gamma, and scaler.
+The kernel controls the type of decision boundary the model can create. A linear kernel creates a
+straight boundary, while the rbf kernel can create a more flexible curved boundary. The C parameter
+controls how much the model penalizes classification mistakes. A smaller C allows a wider margin
+with more mistakes, while a larger C tries harder to classify the training data correctly. The gamma
+parameter controls how far the influence of each training sample reaches when using the rbf kernel.
+We also tested different scalers because SVM is sensitive to feature scale, especially when using
+distance-based kernels such as rbf. The grid search selected an rbf kernel, a C value of 10, gamma
+set to scale, and MinMaxScaler as the best combination. This model performed very well overall and
+was one of the models tied for the highest malignant recall. It also kept strong accuracy,
+precision, recall, and F1-score, which made it one of the best balanced classifiers in the project.
 \begin{center}
     \includegraphics[width=0.7\textwidth]{SVM.png}
     \par\small Confusion matrix for Support Vector Machine model.
