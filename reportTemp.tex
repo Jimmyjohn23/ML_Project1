@@ -1,14 +1,10 @@
-
-%%% Local Variables:
-%%% mode: LaTeX
-%%% TeX-master: t
-%%% End:
 \documentclass[paper=letter, fontsize=11pt]{scrartcl} % Standard US Letter paper
 
 \usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
 \usepackage[english]{babel} % English language/hyphenation
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 \usepackage{graphicx} % Images
+\usepackage{booktabs}
 \graphicspath{{images/}}
 
 % Custom headers and footers
@@ -41,7 +37,7 @@
 \normalfont \normalsize 
 \textsc{University of North Carolina at Charlotte, Intro to Machine Learning} \\ [25pt] 
 \horrule{0.5pt} \\[0.4cm] 
-\huge Homework 1 \\ 
+\huge Midterm Project \\ 
 \horrule{2pt} \\[0.5cm] 
 }
 
@@ -50,15 +46,15 @@
 
 \begin{document}
 
-\maketitle 
+\maketitle
 
 %----------------------------------------------------------------------------------------
 %   PROBLEM 1
 %----------------------------------------------------------------------------------------
 
 \section{Overview}
-In this project, we were tasked with using the breast 
-cancer dataset to implement and evaluate at least five classifiers 
+In this project, we were tasked with using the breast
+cancer dataset to implement and evaluate at least five classifiers
 from the following list:
 \begin{itemize}
     \item Logistic Regression
@@ -67,7 +63,7 @@ from the following list:
     \item Support Vector Machine
     \item Decision Tree Classifier
     \item K-Nearest Neighbors
-\end{itemize} 
+\end{itemize}
 % An example of how to include images. Save image to image folder and replace 
 % ImageName with the name of your image
 % \begin{center}
@@ -76,28 +72,32 @@ from the following list:
 % \end{center}
 
 \section{Preprocessing}
-In the processing step, we split the data into 80 percent training and 20 percent testing. 
-When splitting data, we set the stratify parameter to yes. This feature ensures that, in each 
-split, classes that are rare, such as a positive cancer diagnosis, occur with the same frequency 
-as in the main data set. We also opted to test different scalers (MinMax, Standard, no scaler). 
-We did this by using Pipeline and GridSearchCV to test multiple different parameters at once. 
+In the processing step, we split the data into 80 percent training and 20 percent testing.
+When splitting data, we set the stratify parameter to yes. This feature ensures that, in each
+split, classes that are rare, such as a positive cancer diagnosis, occur with the same frequency
+as in the main data set. We also opted to test different scalers (MinMax, Standard, no scaler).
+We did this by using Pipeline and GridSearchCV to test multiple different parameters at once.
 
 \section{Helper Functions}
 We used three helper functions in our notebook: \texttt{evaluate}, \texttt{summarize\_grid}, and \texttt{weighted\_recall}.
-The ``\texttt{evaluate}'' function takes the model and its name as input parameters. The function trains, tests, displays the confusion matrix, 
-prints the classification report, and returns the model metrics. The ``\texttt{summarize\_grid}'' function is used to compare different scalers. 
-One of the questions asked how different scaling methods affect different algorithms; this function allows us to take a closer look at this.  
-The ``\texttt{weighted\_recall}'' function takes model predictions, true values, the weights of malignant and benign recall, 
-and the weight of benign recall as input parameters. This function then computes a ``weighted recall.'' 
-Since this is a medical context, we decided to emphasize false negatives, as they can lead to patients being left untreated. 
-But if we only focused on that, that model would then diagnose more people with cancer to ensure no one is missed. 
-To fix this, we used a portion of the malignant and benign recall scores from a default 60--40 split to obtain a more balanced model. 
+The ``\texttt{evaluate}'' function takes the model and its name as input parameters. The function trains, tests, displays the confusion matrix,
+prints the classification report, and returns the model metrics. The ``\texttt{summarize\_grid}'' function is used to compare different scalers.
+One of the questions asked how different scaling methods affect different algorithms; this function allows us to take a closer look at this.
+The ``\texttt{weighted\_recall}'' function takes model predictions, true values, the weights of malignant and benign recall,
+and the weight of benign recall as input parameters. This function then computes a ``weighted recall.''
+Since this is a medical context, we decided to emphasize false negatives, as they can lead to patients being left untreated.
+But if we only focused on that, that model would then diagnose more people with cancer to ensure no one is missed.
+To fix this, we used a portion of the malignant and benign recall scores from a default 60--40 split to obtain a more balanced model.
 This weighted recall metric was used to select the best model.
 
 \section{Naive Bayes}
+The Naïve Bayes didn`t have many parameters to test. There are different types of Naïve Bayes algorithms. We chose the
+Gaussian Naïve Bayes (GNB) algorithm and tested our three different scalers. The best scaler for GNB turned out to be no
+scaler at all. After doing some research on GNB, it turns out they are theoretically scale-invariant, so in practice,
+scaling would have little effect on the outcome.
 \begin{center}
     \includegraphics[width=0.7\textwidth]{Bayes.png}
-    \par\small Confusion matrix for Naive Bayes model. 
+    \par\small Confusion matrix for Naive Bayes model.
 \end{center}
 
 \section{Logistic Regression}
@@ -119,15 +119,50 @@ This weighted recall metric was used to select the best model.
 \end{center}
 
 \section{Decision Tree Classifier}
+Decision Tree Classifier (DTC) had quite a lot of parameters to test: criterion, max depth, ccp alpha, min samples leaf, and class weight.
+The criterion is the function used to measure the quality of a split. Max depth is the maximum depth of the tree.
+CCP alpha is a complexity parameter used for Minimal Cost-Complexity Pruning. The subtree with the largest cost
+complexity that is smaller than ccp alpha will be chosen. The min samples leaf is the minimum number of samples required
+to be at a leaf node. A split point at any depth will only be considered if it leaves at least min samples leaf training samples
+in each of the left and right branches. The class weight parameter controls the weights associated with each class. When set to balanced,
+the weights are adjusted inversely proportional to the class frequencies in the training data, so the minority class (malignant) counts more
+heavily when the tree evaluates splits. When left at the default, all samples are weighted equally. We included this parameter
+because the dataset is imbalanced and, in this medical context, we wanted to test whether penalizing missed malignant cases at training
+time would improve malignant recall. The grid search selected gini, a max depth of none, a ccp alpha of 0.0, a min samples leaf of 20,
+and default class weights as the best combination. One note on DTC scaling: it had no effect on the outcome during initial testing, so the test was removed to speed up runtime.
 \begin{center}
     \includegraphics[width=0.7\textwidth]{DT.png}
     \par\small Confusion matrix for Decision Tree Classifier model.
 \end{center}
 
 \section{K-Nearest Neighbors}
+For K-Nearest Neighbors (KNN), we tested the number of neighbors(n\_neighbors), weights, and scalers. The
+best-scoring model had the following parameters: 7 neighbors, uniform weights, and MinMaxScaler.
 \begin{center}
     \includegraphics[width=0.7\textwidth]{KNN.png}
     \par\small Confusion matrix for K-Nearest Neighbors model.
 \end{center}
 
+\section{Comparison of Models}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Chart.png}
+    \par\small Chart comparing the metrics of the different models.
+\end{center}
+\begin{table}[htbp]
+    \centering
+    \caption{Model performance comparison on the test set.}
+    \label{tab:model-comparison}
+    \begin{tabular}{lcccccc}
+        \toprule
+                            & Accuracy & Precision & Recall & F1     & Recall (Mal.) & Weighted Recall \\
+        \midrule
+        Logistic Regression & 0.9825   & 0.9861    & 0.9861 & 0.9861 & 0.9762        & 0.9802          \\
+        SVM                 & 0.9737   & 0.9859    & 0.9722 & 0.9790 & 0.9762        & 0.9746          \\
+        KNN                 & 0.9737   & 0.9726    & 0.9861 & 0.9793 & 0.9524        & 0.9659          \\
+        Perceptron          & 0.9386   & 0.9851    & 0.9167 & 0.9496 & 0.9762        & 0.9524          \\
+        Decision Tree       & 0.9035   & 0.9841    & 0.8611 & 0.9185 & 0.9762        & 0.9302          \\
+        Naive Bayes         & 0.9386   & 0.9452    & 0.9583 & 0.9517 & 0.9048        & 0.9262          \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 \end{document}

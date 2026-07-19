@@ -1,5 +1,27 @@
 # Code Doc for Midterm 
 
+## Table of Contents
+- [Code Doc for Midterm](#code-doc-for-midterm)
+  - [Table of Contents](#table-of-contents)
+  - [Use](#use)
+  - [Data Preprocessing](#data-preprocessing)
+  - [Stratify](#stratify)
+  - [Pipeline](#pipeline)
+  - [GridSearchCV](#gridsearchcv)
+  - [Helper Functions](#helper-functions)
+    - [Evaluate](#evaluate)
+    - [Scorer](#scorer)
+    - [GridSearch Summarizer](#gridsearch-summarizer)
+  - [Questions](#questions)
+    - [1. Which model performed best overall? Define what you mean by “best” and justify your choice using more than one metric.](#1-which-model-performed-best-overall-define-what-you-mean-by-best-and-justify-your-choice-using-more-than-one-metric)
+    - [2. Which model achieved the highest recall for malignant cases? Why is this metric especially important for this task?](#2-which-model-achieved-the-highest-recall-for-malignant-cases-why-is-this-metric-especially-important-for-this-task)
+    - [3. How did scaling affect logistic regression, SVM, and KNN/Decision Tree? Explain the observed changes using the way each algorithm works.](#3-how-did-scaling-affect-logistic-regression-svm-and-knndecision-tree-explain-the-observed-changes-using-the-way-each-algorithm-works)
+    - [4. For the Decision Tree, how did maxDepth affect training and validation/cross-validation performance? What methods can be used to control overfitting?](#4-for-the-decision-tree-how-did-maxdepth-affect-training-and-validationcross-validation-performance-what-methods-can-be-used-to-control-overfitting)
+    - [5. How does a Decision Tree select a feature and split point at each node? Explain the role of an impurity criterion such as Gini impurity or entropy.](#5-how-does-a-decision-tree-select-a-feature-and-split-point-at-each-node-explain-the-role-of-an-impurity-criterion-such-as-gini-impurity-or-entropy)
+    - [6. For KNN, how did you select k? Explain why a very small k can overfit and why a very large k can underfit.](#6-for-knn-how-did-you-select-k-explain-why-a-very-small-k-can-overfit-and-why-a-very-large-k-can-underfit)
+    - [7. For each of the five classifiers, explain the main assumptions or inductive biases, the types of decision boundaries it can represent, important sensitivities (for example, scaling, noise, outliers, correlated features, dimensionality, or hyperparameters), and situations in which performance may degrade.](#7-for-each-of-the-five-classifiers-explain-the-main-assumptions-or-inductive-biases-the-types-of-decision-boundaries-it-can-represent-important-sensitivities-for-example-scaling-noise-outliers-correlated-features-dimensionality-or-hyperparameters-and-situations-in-which-performance-may-degrade)
+
+
 ## Use
 This is the docs the midterm project. This will be use to explain functions, steps used, and other topics we maybe questioned on as part of our project. Please add in any notes you see fit.
 
@@ -57,7 +79,8 @@ __Attributes__
     2. best_score_ : mean CV score of the winner
     3. best_estimator_ : the refitted pipeline — pass this to evaluate()
     4. cv_results_ : full results table for every combination
-## Evaluate Model Helper
+## Helper Functions
+### Evaluate 
 This helper predicts y to make a confusion matrix. It displays the confusion matrix and classification report. It also returns model metrics; ensure you save them for the comparison chart at the end.
 
 Input parameters: model see example below, name : String
@@ -66,6 +89,27 @@ Knn_grid = GridSearchCV(...)
 evaluate(knn_grid.best_estimator_, "K-Nearest Neighbors")
 
 ```
+### Scorer
 
+### GridSearch Summarizer
 
+## Questions
+
+### 1. Which model performed best overall? Define what you mean by “best” and justify your choice using more than one metric.
+
+We decided to use a "weighted recall" by taking a portion of the malignant and benign recalls. We took a larger portion of the malignant recall since we decided to place an emphasis on preventing false negatives.
+
+###  2. Which model achieved the highest recall for malignant cases? Why is this metric especially important for this task?
+
+We had a tie between Logistic Regression, SVM, and Decision tree with a value of (0.9762). This  metric was important because it measures false negatives. In a medical context, a false negative may lead to someone not receiving treatment. This is very serious with a disease such as cancer.
+
+### 3. How did scaling affect logistic regression, SVM, and KNN/Decision Tree? Explain the observed changes using the way each algorithm works.
+
+###  4. For the Decision Tree, how did maxDepth affect training and validation/cross-validation performance? What methods can be used to control overfitting?
+
+###  5. How does a Decision Tree select a feature and split point at each node? Explain the role of an impurity criterion such as Gini impurity or entropy.
+
+###  6. For KNN, how did you select k? Explain why a very small k can overfit and why a very large k can underfit.
+
+### 7. For each of the five classifiers, explain the main assumptions or inductive biases, the types of decision boundaries it can represent, important sensitivities (for example, scaling, noise, outliers, correlated features, dimensionality, or hyperparameters), and situations in which performance may degrade.
 
