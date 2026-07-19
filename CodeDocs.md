@@ -105,9 +105,31 @@ We had a tie between Logistic Regression, SVM, and Decision tree with a value of
 
 ### 3. How did scaling affect logistic regression, SVM, and KNN/Decision Tree? Explain the observed changes using the way each algorithm works.
 
+Scaling had a large effect on Logistic Regression, SVM, and KNN because these models use the size of the feature values during training or prediction. In this dataset, some features have much larger number ranges than others. For example, area values can be much larger than smoothness values. If scaling is not used, the model may treat the larger-numbered features as more important even if they are not actually more useful.
+
+For Logistic Regression, StandardScaler gave the best result. Logistic Regression learns coefficients for each feature, and scaling helps the solver converge better. It also makes the regularization penalty treat each feature more fairly because all features are on a similar scale.
+
+For SVM, scaling was also important. The best SVM used MinMaxScaler with the rbf kernel. SVM tries to separate points using distances and margins, so features with large ranges can dominate the boundary if they are not scaled. The rbf kernel is especially sensitive to scale because gamma controls how far the influence of each point reaches.
+
+For KNN, MinMaxScaler gave the best result. KNN classifies a point by looking at nearby points, so distance is the main idea behind the algorithm. If one feature has a very large range, it can dominate the distance calculation. Scaling keeps each feature from unfairly controlling the neighbor search.
+
+For Decision Tree, scaling did not really affect the outcome. A Decision Tree does not use distance or gradient-based weight updates. Instead, it chooses feature thresholds such as "feature <= value". If a feature is scaled, the threshold value changes, but the ordering of the samples usually stays the same. Because of this, Decision Trees are mostly scale-invariant.
+
 ###  4. For the Decision Tree, how did maxDepth affect training and validation/cross-validation performance? What methods can be used to control overfitting?
 
+MaxDepth controls how many levels the tree is allowed to grow. If maxDepth is very small, the tree is simple and may underfit. This means it may not capture enough patterns in the data. If maxDepth is very large or set to none, the tree can keep splitting until it captures many details in the training set. This can improve training performance, but it can also overfit and perform worse on validation or cross-validation data.
+
+In our grid search, we tested maxDepth values of none, 3, 5, and 10. The best Decision Tree selected maxDepth as none, but it also selected min_samples_leaf = 20. This means the tree was technically allowed to grow deep, but it could not create leaves with very few samples. That helped control overfitting because the tree could not make very specific branches for only one or two training examples.
+
+There are multiple ways to control overfitting in a Decision Tree. One way is to limit maxDepth so the tree cannot become too complex. Another way is to increase min_samples_leaf or min_samples_split so each split needs enough data to be useful. We also tested ccp_alpha, which is used for cost-complexity pruning. Pruning removes branches that do not improve the model enough. Class weights can also be tested when the dataset is imbalanced, but in our best model the default class weights were selected.
+
 ###  5. How does a Decision Tree select a feature and split point at each node? Explain the role of an impurity criterion such as Gini impurity or entropy.
+
+A Decision Tree selects a feature and split point by testing possible splits and choosing the one that makes the child groups more pure. A pure group means most or all of the samples in that group belong to the same class. In this project, that means a split is better if it separates malignant and benign samples more clearly.
+
+At each node, the tree looks through the features and possible threshold values. For example, it may test a rule such as "worst radius <= 16.8". That rule divides the data into a left branch and a right branch. The tree then measures how mixed the classes are after the split. The split that reduces impurity the most is selected.
+
+Gini impurity and entropy are two ways to measure how mixed a node is. Gini impurity is low when most samples in a node belong to one class and high when the classes are mixed. Entropy works similarly, but it comes from information theory. A split with high information gain, or large impurity reduction, is preferred. In our grid search, the best Decision Tree selected the gini criterion, so it used Gini impurity to decide which splits were best.
 
 ###  6. For KNN, how did you select k? Explain why a very small k can overfit and why a very large k can underfit.
 
