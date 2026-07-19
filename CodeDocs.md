@@ -8,10 +8,6 @@
   - [Stratify](#stratify)
   - [Pipeline](#pipeline)
   - [GridSearchCV](#gridsearchcv)
-  - [Helper Functions](#helper-functions)
-    - [Evaluate](#evaluate)
-    - [Scorer](#scorer)
-    - [GridSearch Summarizer](#gridsearch-summarizer)
   - [Questions](#questions)
     - [1. Which model performed best overall? Define what you mean by “best” and justify your choice using more than one metric.](#1-which-model-performed-best-overall-define-what-you-mean-by-best-and-justify-your-choice-using-more-than-one-metric)
     - [2. Which model achieved the highest recall for malignant cases? Why is this metric especially important for this task?](#2-which-model-achieved-the-highest-recall-for-malignant-cases-why-is-this-metric-especially-important-for-this-task)
@@ -79,19 +75,6 @@ __Attributes__
     2. best_score_ : mean CV score of the winner
     3. best_estimator_ : the refitted pipeline — pass this to evaluate()
     4. cv_results_ : full results table for every combination
-## Helper Functions
-### Evaluate 
-This helper predicts y to make a confusion matrix. It displays the confusion matrix and classification report. It also returns model metrics; ensure you save them for the comparison chart at the end.
-
-Input parameters: model see example below, name : String
-```
-Knn_grid = GridSearchCV(...)
-evaluate(knn_grid.best_estimator_, "K-Nearest Neighbors")
-
-```
-### Scorer
-
-### GridSearch Summarizer
 
 ## Questions
 
