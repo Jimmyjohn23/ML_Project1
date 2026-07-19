@@ -101,10 +101,27 @@ scaling would have little effect on the outcome.
 \end{center}
 
 \section{Logistic Regression}
+
+Logistic regression fits a linear decision boundary by modeling the log-odds
+of the benign class as a linear function of the features, with L2
+regularization controlled by the inverse regularization strength $C$. We
+searched $C \in \{0.01, 0.1, 1, 10, 100\}$, the \texttt{liblinear} and
+\texttt{lbfgs} solvers, and both standard and MinMax scalers.
+
+The best configuration was $C=1$ with the \texttt{liblinear} solver and
+\texttt{StandardScaler} (CV score 0.9767). On the validation set it is the
+strongest model overall: \textbf{accuracy 0.9825}, precision 0.9861, recall
+0.9861, F1 0.9861, and malignant recall 0.9762. It makes only two errors: one
+missed malignant case and one false alarm.
 \begin{center}
+
     \includegraphics[width=0.7\textwidth]{Log.png}
     \par\small Confusion matrix for Logistic Regression model.
 \end{center}
+
+Scaling was essential here: gradient-based solvers converge poorly when
+features differ by four orders of magnitude, and standardization also makes
+the regularization penalty treat all coefficients comparably.
 
 \section{Perceptron}
 \begin{center}
