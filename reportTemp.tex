@@ -183,7 +183,23 @@ best-scoring model had the following parameters: 7 neighbors, uniform weights, a
     \par\small Confusion matrix for K-Nearest Neighbors model.
 \end{center}
 
-\section{Comparison of Models}
+\section{Comparison of Models and Conclusion}
+We selected the best-performing model from each of the six classifiers and compared their performance metrics.
+The chart below presents the accuracy, precision, recall, F1 score, malignant recall, and weighted recall for
+each model. Logistic Regression and Support Vector Machine (SVM) achieved the highest scores across all metrics.
+K-Nearest Neighbors (KNN) and Perceptron also demonstrated strong performance, whereas Decision Tree and Naive Bayes
+exhibited lower scores. Based on the weighted recall metric, Logistic Regression emerged as the top model, with
+SVM as a close second. \newline
+Logistic Regression and SVM likely performed best because the two classes in this dataset are nearly linearly
+separable in the 30-dimensional feature space, and both models are designed to identify such boundaries. Our optimal SVM
+utilized the radial basis function (rbf) kernel; however, with the parameters selected by grid search, its decision
+boundary was only slightly curved, resulting in similar behavior to Logistic Regression. The performance difference
+between the two models was minimal: Logistic Regression made two errors, while SVM made three out of 114 test samples.
+This small gap does not provide sufficient evidence to definitively favor one model over the other. We selected Logistic
+Regression as our final model because it matched or exceeded SVM's performance on all metrics, is simpler to interpret,
+and provides probability outputs rather than only class labels. This probabilistic output is particularly valuable in medical
+contexts, where clinicians may require information about the model's confidence.
+
 \begin{center}
     \includegraphics[width=0.8\textwidth]{Chart.png}
     \par\small Chart comparing the metrics of the different models.
